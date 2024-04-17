@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import { BaseButton, ThemeProvider } from 'globe-react-native-ui-library';
+import { Button, ThemeProvider } from 'globe-react-native-ui-library';
 
 export default function App() {
   return (
     <ThemeProvider>
       <View style={styles.container}>
-        <BaseButton label={'Sample Base Button'} />
+        <Button label={'Sample Base Button'} />
       </View>
     </ThemeProvider>
   );

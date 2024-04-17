@@ -26,6 +26,7 @@ const defaultProps: Partial<ButtonProps> = {
 };
 
 /**
+ * Basic Button Component
  *
  * @param label  - The label text of the button (optional).
  * @param styles - Additional styling for the button; It will override the theme (optional).
@@ -36,7 +37,7 @@ const defaultProps: Partial<ButtonProps> = {
  * @param labelCenter - Makes the label appear in the center (optional). Default to false.
  * @returns
  */
-const BaseButton: React.FC<ButtonProps> = (props) => {
+const Button: React.FC<ButtonProps> = (props) => {
   const { theme } = useTheme();
   const mergedProps = { ...defaultProps, ...props };
 
@@ -58,7 +59,7 @@ const BaseButton: React.FC<ButtonProps> = (props) => {
   );
 };
 
-export default BaseButton;
+export default Button;
 
 const styles = (props?: ButtonProps, theme?: Theme) =>
   StyleSheet.create({
