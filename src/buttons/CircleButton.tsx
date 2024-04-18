@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { type Theme, useTheme } from '../provider/themeContext';
 
-export interface ButtonProps {
+export interface CircleButtonProps {
   label?: string | number;
   styles?: ViewStyle;
   textStyles?: TextStyle;
@@ -20,13 +20,13 @@ export interface ButtonProps {
   labelCenter?: boolean;
 }
 
-const defaultProps: Partial<ButtonProps> = {
+const defaultProps: Partial<CircleButtonProps> = {
   disabled: false,
   labelCenter: true,
 };
 
 /**
- * Basic Button Component
+ * Circle Button Component
  *
  * @param label  - The label text of the button (optional).
  * @param styles - Additional styling for the button; It will override the theme (optional).
@@ -37,16 +37,13 @@ const defaultProps: Partial<ButtonProps> = {
  * @param labelCenter - Makes the label appear in the center (optional). Default to false.
  * @returns
  */
-const Button: React.FC<ButtonProps> = (props) => {
+const CircleButton: React.FC<CircleButtonProps> = (props) => {
   const { theme } = useTheme();
   const mergedProps = { ...defaultProps, ...props };
 
   return (
-    <Pressable
-      style={styles(mergedProps, theme).button}
-      onPress={props.onPress}
-    >
-      <View style={styles(mergedProps, theme).view}>
+    <Pressable style={styles(mergedProps).button} onPress={props.onPress}>
+      <View style={styles(mergedProps).view}>
         {mergedProps.useIcon && mergedProps.useIcon}
 
         {mergedProps.label && (
@@ -59,9 +56,9 @@ const Button: React.FC<ButtonProps> = (props) => {
   );
 };
 
-export default Button;
+export default CircleButton;
 
-const styles = (props?: ButtonProps, theme?: Theme) =>
+const styles = (props?: CircleButtonProps) =>
   StyleSheet.create({
     view: {
       flexDirection: 'row',
@@ -69,28 +66,35 @@ const styles = (props?: ButtonProps, theme?: Theme) =>
       justifyContent: props?.labelCenter ? 'center' : 'flex-start',
     },
     button: {
-      paddingHorizontal: 24,
-      paddingVertical: 16,
-      borderRadius: 6,
-      height: 50,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
       marginVertical: 5,
       alignSelf: 'stretch',
-      backgroundColor: props?.disabled
-        ? theme?.colors.disabledButtonColor
-        : theme?.colors.enabledButtonColor,
+      backgroundColor: 'transparent',
+      width: 62,
+      height: 62,
+      gap: 10,
+      borderRadius: 100,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: '#CFDDF4',
+      margin: 10,
+      fontWeight: '500',
       ...props?.styles,
     },
   });
 
-const textStyles = (props?: ButtonProps, theme?: Theme) =>
+const textStyles = (props?: CircleButtonProps, theme?: Theme) =>
   StyleSheet.create({
     text: {
       textAlign: 'center',
       color: props?.disabled
         ? theme?.colors.textInactiveColor
         : theme?.colors.textActiveColor,
-      fontWeight: '700',
-      fontSize: 14,
+      fontWeight: '600',
+      fontSize: 18,
+      lineHeight: 18,
       marginLeft: props?.useIcon ? 5 : 0,
       ...props?.textStyles,
     },

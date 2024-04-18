@@ -14,8 +14,7 @@ export interface TextInputProps {
   styles?: ViewStyle | TextStyle;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
-  textValue?: string;
-  setText?: (text: string) => void;
+  onChangeText?: (e: string) => void;
 }
 
 /**
@@ -24,13 +23,13 @@ export interface TextInputProps {
  * @param styles - Additional styling for the outer design of the Text Input (optional).
  * @param placeholder - The label text of the Text Input (optional).
  * @param keyboardType - check react-native's keyboardTypes under TextInput (optional)
- * @param textValue - value of the TextInput (optional)
- * @param setText - set value of the textValue (optional)
+ * @param onChangeText - Get the text changes
  * @returns
  */
 const TextInput: React.FC<TextInputProps> = (props) => {
   const [isFocused, setIsFocused] = useState(false);
   const inputAnim = useRef(new Animated.Value(0)).current;
+  const [text, setText] = useState('');
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -43,13 +42,18 @@ const TextInput: React.FC<TextInputProps> = (props) => {
 
   const handleBlur = () => {
     setIsFocused(false);
-    if (!props.textValue) {
+    if (!text) {
       Animated.timing(inputAnim, {
         toValue: 0,
         duration: 200,
         useNativeDriver: false,
       }).start();
     }
+  };
+
+  const handleOnChangeText = (e: string) => {
+    setText(e);
+    props.onChangeText && props.onChangeText(e);
   };
 
   return (
@@ -87,8 +91,8 @@ const TextInput: React.FC<TextInputProps> = (props) => {
           style={styles(props).input}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onChangeText={props.setText}
-          value={props.textValue}
+          onChangeText={handleOnChangeText}
+          value={text}
           keyboardType={props.keyboardType}
         />
       </View>
@@ -108,8 +112,10 @@ const styles = (props: TextInputProps) =>
       borderWidth: 1,
       borderColor: '#CFDDF4',
       padding: 8,
-      borderRadius: 5,
-      paddingHorizontal: 20,
+      borderRadius: 6,
+      paddingHorizontal: 12,
+      paddingVertical: 12,
+      height: 60,
     },
     inputContainerFocused: {
       borderColor: '#CFDDF4', // Example color change when focused
@@ -117,16 +123,21 @@ const styles = (props: TextInputProps) =>
     input: {
       fontSize: 14,
       height: 40,
+      fontWeight: '600',
+      lineHeight: 14,
+      paddingHorizontal: 12,
     },
     placeholderContainer: {
       position: 'absolute',
       top: 8,
       left: 1,
       backgroundColor: 'transparent',
-      paddingHorizontal: 13,
     },
     placeholder: {
       fontSize: 12,
+      fontWeight: '600',
+      lineHeight: 15.6,
       color: 'gray',
+      paddingHorizontal: 12,
     },
   });
