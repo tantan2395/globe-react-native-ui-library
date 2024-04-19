@@ -3,3 +3,4 @@ export {
   default as CircleButton,
   type CircleButtonProps,
 } from './CircleButton';
+export { default as PressableText } from './PressableText';
