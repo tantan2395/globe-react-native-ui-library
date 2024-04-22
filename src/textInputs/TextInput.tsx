@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   type KeyboardTypeOptions,
   StyleSheet,
@@ -14,7 +14,9 @@ export interface TextInputProps {
   styles?: ViewStyle | TextStyle;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
+  value?: string;
   onChangeText?: (e: string) => void;
+  showSoftInputOnFocus?: boolean;
 }
 
 /**
@@ -23,13 +25,30 @@ export interface TextInputProps {
  * @param styles - Additional styling for the outer design of the Text Input (optional).
  * @param placeholder - The label text of the Text Input (optional).
  * @param keyboardType - check react-native's keyboardTypes under TextInput (optional)
+ * @param value - Input text value
  * @param onChangeText - Get the text changes
+ * @param showSoftInputOnFocus - Display the soft keyboard
  * @returns
  */
 const TextInput: React.FC<TextInputProps> = (props) => {
   const [isFocused, setIsFocused] = useState(false);
   const inputAnim = useRef(new Animated.Value(0)).current;
+  const textInputRef = useRef<RNTextInput>(null);
   const [text, setText] = useState('');
+
+  useEffect(() => {
+    const str = props.value?.trim() ?? '';
+
+    if (textInputRef.current) {
+      if (str.length > 0) {
+        textInputRef.current.focus();
+      } else {
+        textInputRef.current.blur();
+      }
+    }
+
+    setText(props.value ?? '');
+  }, [props.value]);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -94,6 +113,8 @@ const TextInput: React.FC<TextInputProps> = (props) => {
           onChangeText={handleOnChangeText}
           value={text}
           keyboardType={props.keyboardType}
+          ref={textInputRef}
+          showSoftInputOnFocus={props.showSoftInputOnFocus}
         />
       </View>
     </View>
