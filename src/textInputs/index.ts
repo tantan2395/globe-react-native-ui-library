@@ -7,3 +7,4 @@ export {
   default as TextInputPinCode,
   type TextInputPinCodeProps,
 } from './TextInputPinCode';
+export { default as DateInput, type DateInputProps } from './DateInput';

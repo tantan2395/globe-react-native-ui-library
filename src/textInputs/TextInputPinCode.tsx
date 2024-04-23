@@ -1,35 +1,43 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 
 export interface TextInputPinCodeProps {
   numberOfPins?: number;
   onPinChanged?: (pin: string) => void;
+  value?: string;
+  showSoftInputOnFocus?: boolean;
 }
 
 const TextInputPinCode: React.FC<TextInputPinCodeProps> = ({
   numberOfPins = 6,
   onPinChanged,
+  showSoftInputOnFocus,
+  value,
 }) => {
   const [pin, setPin] = useState<string[]>(Array(numberOfPins).fill(''));
   const pinInputs = useRef<TextInput[]>(Array(numberOfPins).fill(null));
+  const [oldValue, setOldValue] = useState('');
 
-  const handlePinChange = (text: string, index: number) => {
-    const newPin = [...pin];
-    newPin[index] = text;
-    setPin(newPin);
+  const handlePinChange = useCallback(
+    (text: string, index: number) => {
+      const newPin = [...pin];
+      newPin[index] = text;
+      setPin(newPin);
 
-    onPinChanged && onPinChanged(newPin.join(''));
+      onPinChanged && onPinChanged(newPin.join(''));
 
-    // Move focus to the next input
-    setTimeout(() => {
-      pinInputs.current[index]?.blur();
-      if (text !== '' && index < numberOfPins - 1) {
-        pinInputs.current[index + 1]?.focus();
-      } else if (text === '' && index > 0) {
-        pinInputs.current[index - 1]?.focus();
-      }
-    }, 200); // Adjust the delay as needed
-  };
+      // Move focus to the next input
+      setTimeout(() => {
+        pinInputs.current[index]?.blur();
+        if (text !== '' && index < numberOfPins - 1) {
+          pinInputs.current[index + 1]?.focus();
+        } else if (text === '' && index > 0) {
+          pinInputs.current[index - 1]?.focus();
+        }
+      }, 200); // Adjust the delay as needed
+    },
+    [numberOfPins, onPinChanged, pin]
+  );
 
   const handleKeyPress = (key: string, index: number) => {
     if (key === 'Backspace' && pin[index] === '' && index > 0) {
@@ -37,24 +45,40 @@ const TextInputPinCode: React.FC<TextInputPinCodeProps> = ({
     }
   };
 
+  useEffect(() => {
+    const str = value?.trim() ?? '';
+    if (str.length <= numberOfPins) {
+      setOldValue(str);
+      const index = str.length - 1 > 0 ? str.length - 1 : 0;
+
+      if (str.length > oldValue.length) {
+        handlePinChange(str, index);
+      } else {
+        handlePinChange('', oldValue.length - 1);
+      }
+    }
+  }, [value, handlePinChange, numberOfPins, oldValue.length]);
+
   return (
     <View style={styles.container}>
-      {pin.map((value, index) => (
+      {pin.map((val, index) => (
         <TouchableOpacity
           key={index}
           onPress={() => pinInputs.current[index]?.focus()}
-          style={[styles.pinCircle, value !== '' && styles.filledCircle]}
+          style={[styles.pinCircle, val !== '' && styles.filledCircle]}
         >
           <TextInput
             ref={(ref) => (pinInputs.current[index] = ref as TextInput)}
-            style={pinInputStyles(value).pinInput}
-            value={value}
+            style={pinInputStyles(val).pinInput}
+            value={val}
             onChangeText={(text) => handlePinChange(text, index)}
             keyboardType="numeric"
             maxLength={1}
             onKeyPress={({ nativeEvent }) =>
               handleKeyPress(nativeEvent.key, index)
             }
+            showSoftInputOnFocus={showSoftInputOnFocus}
+            caretHidden={true}
           />
         </TouchableOpacity>
       ))}
@@ -78,6 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
+    backgroundColor: 'transparent',
   },
   filledCircle: {
     backgroundColor: 'black',

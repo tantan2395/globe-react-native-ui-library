@@ -6,30 +6,36 @@ import {
   StyleSheet,
   type TextStyle,
 } from 'react-native';
+import { type Theme, useTheme } from '../provider/themeContext';
 
 export interface PressableTextProps {
   label?: string | number;
   onPress?: (event: GestureResponderEvent) => void;
   styles?: TextStyle;
+  disabled?: boolean;
 }
 
 const PressableText: React.FC<PressableTextProps> = (props) => {
+  const { theme } = useTheme();
+
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <Text style={styles(props.styles).text}>{props.label}</Text>
+      <Text style={styles(props, theme).text}>{props.label}</Text>
     </TouchableOpacity>
   );
 };
 
-const styles = (style?: TextStyle) =>
+const styles = (props?: PressableTextProps, theme?: Theme) =>
   StyleSheet.create({
     text: {
       fontSize: 14,
       fontWeight: '700',
-      color: 'gray',
       margin: 16,
       width: 'auto',
-      ...style,
+      color: props?.disabled
+        ? theme?.colors.disabledButtonColor
+        : theme?.colors.enabledButtonColor,
+      ...props?.styles,
     },
   });
 

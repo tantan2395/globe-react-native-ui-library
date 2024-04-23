@@ -4,11 +4,15 @@ import { StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 export interface TextInputPinProps {
   numberOfPins?: number;
   onPinChange?: (pin: string) => void;
+  value?: string;
+  showSoftInputOnFocus?: boolean;
 }
 
 const TextInputPin: React.FC<TextInputPinProps> = ({
   numberOfPins = 6,
   onPinChange,
+  value,
+  showSoftInputOnFocus,
 }) => {
   const windowWidth = useWindowDimensions().width;
   const [pin, setPin] = useState<string>('');
@@ -18,6 +22,21 @@ const TextInputPin: React.FC<TextInputPinProps> = ({
   useEffect(() => {
     setInputRefs(Array.from({ length: numberOfPins }, () => null));
   }, [numberOfPins]);
+
+  useEffect(() => {
+    const str = value?.trim() ?? '';
+    const index = str.length - 1 > 0 ? str.length - 1 : 0;
+
+    if (inputRefs[index]) {
+      if (str.length > 0) {
+        inputRefs[index]?.focus();
+      } else {
+        inputRefs[index]?.blur();
+      }
+    }
+
+    setPin(value ?? '');
+  }, [value, inputRefs]);
 
   const pinInputWidth = (windowWidth - 20 - 15 * numberOfPins) / numberOfPins;
 
@@ -73,6 +92,8 @@ const TextInputPin: React.FC<TextInputPinProps> = ({
             }}
             keyboardType="numeric"
             maxLength={1}
+            showSoftInputOnFocus={showSoftInputOnFocus}
+            caretHidden={true}
           />
         </View>
       ))}
