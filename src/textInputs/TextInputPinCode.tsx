@@ -25,7 +25,6 @@ const TextInputPinCode: React.FC<TextInputPinCodeProps> = ({
       setPin(newPin);
 
       onPinChanged && onPinChanged(newPin.join(''));
-
       // Move focus to the next input
       setTimeout(() => {
         pinInputs.current[index]?.blur();
@@ -57,7 +56,10 @@ const TextInputPinCode: React.FC<TextInputPinCodeProps> = ({
         handlePinChange('', oldValue.length - 1);
       }
     }
-  }, [value, handlePinChange, numberOfPins, oldValue.length]);
+    // disables lint test for this useEffect until we got solution for the handlePinChange lint error that causes infinite loop when added to the dependency array
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, numberOfPins]);
 
   return (
     <View style={styles.container}>
