@@ -8,12 +8,13 @@ import {
   Animated,
   Pressable,
 } from 'react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export interface DateInputProps {
   styles?: ViewStyle | TextStyle;
   placeholder?: string;
   onConfirm: (date: string) => void;
+  handleOnEnablePicker: (d: boolean) => void;
+  value: string;
 }
 
 /**
@@ -27,8 +28,6 @@ export interface DateInputProps {
 const DateInput: React.FC<DateInputProps> = (props) => {
   const [isFocused, setIsFocused] = useState(false);
   const inputAnim = useRef(new Animated.Value(0)).current;
-  const [enableDatePicker, setEnableDatePicker] = useState(false);
-  const [value, setValue] = useState('');
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -39,33 +38,15 @@ const DateInput: React.FC<DateInputProps> = (props) => {
     }).start();
   };
 
-  const handleOnConfirm = (date: Date) => {
+  const handleOnEnablePicker = () => {
+    props.handleOnEnablePicker && props.handleOnEnablePicker(true);
+
     handleFocus();
-
-    const d = new Date(date);
-    const month = d.getMonth() + 1; // Months are zero-based, so we add 1
-    const day = d.getDate();
-    const year = d.getFullYear();
-
-    const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedDay = day < 10 ? `0${day}` : day;
-
-    const result = `${formattedMonth}/${formattedDay}/${year}`;
-    setValue(result);
-    setEnableDatePicker(false);
-
-    props.onConfirm && props.onConfirm(result);
-
-    return result;
-  };
-
-  const handleCancel = () => {
-    setEnableDatePicker(false);
   };
 
   return (
     <>
-      <Pressable onPress={() => setEnableDatePicker(true)}>
+      <Pressable onPress={handleOnEnablePicker}>
         <View style={styles(props).container}>
           <View
             style={[
@@ -96,17 +77,10 @@ const DateInput: React.FC<DateInputProps> = (props) => {
             >
               <Text style={styles(props).placeholder}>{props.placeholder}</Text>
             </Animated.View>
-            <Text style={styles(props).input}>{value}</Text>
+            <Text style={styles(props).input}>{props.value}</Text>
           </View>
         </View>
       </Pressable>
-
-      <DateTimePickerModal
-        onCancel={handleCancel}
-        onConfirm={handleOnConfirm}
-        mode="date"
-        isVisible={enableDatePicker}
-      />
     </>
   );
 };

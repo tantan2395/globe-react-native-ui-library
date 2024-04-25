@@ -155,9 +155,5 @@
         }
       ]
     ]
-  },
-  "dependencies": {
-    "@react-native-community/datetimepicker": "^7.7.0",
-    "react-native-modal-datetime-picker": "^17.1.0"
   }
 }
