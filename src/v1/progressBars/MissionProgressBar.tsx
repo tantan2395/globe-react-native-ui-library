@@ -24,7 +24,7 @@ const MissionProgressBar: React.FC<MissionProgressBarProps> = ({
   completedSteps = 0,
 }) => {
   const progressPercentage = (completedSteps / totalSteps) * 100;
-  const starSource = require('../../assets/star.png');
+  const starSource = require('../assets/star.png');
 
   const circleColor =
     completedSteps === totalSteps
