@@ -1,14 +1,16 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, type ViewStyle } from 'react-native';
 
-export interface CheckIconProps {}
+export interface CheckIconProps {
+  circleStyle?: ViewStyle | ViewStyle[];
+}
 
-const CheckIcon: React.FC<CheckIconProps> = () => {
+const CheckIcon: React.FC<CheckIconProps> = ({ circleStyle }) => {
   const checkIcon = require('../assets/check_icon.png');
 
   return (
     <View style={styles.row}>
-      <View style={styles.circle}>
+      <View style={[styles.circle, circleStyle]}>
         <View style={styles.iconContainer}>
           <Image source={checkIcon} style={styles.icon} resizeMode="center" />
         </View>
