@@ -3,7 +3,7 @@ import { Text, StyleSheet, type TextStyle } from 'react-native';
 
 export interface SecondaryTextProps {
   value: string;
-  styles?: TextStyle;
+  styles?: TextStyle | TextStyle[] | undefined;
 }
 
 const SecondaryText: React.FC<SecondaryTextProps> = (props) => {
