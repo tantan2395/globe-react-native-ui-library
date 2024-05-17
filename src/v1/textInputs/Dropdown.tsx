@@ -125,7 +125,7 @@ const styles = (theme: Theme) =>
       borderColor: theme.dropdown?.borderColor,
     },
     itemText: {
-      ...theme.dropdown.itemText,
+      ...theme.dropdown?.itemText,
     },
     iconContainer: {
       position: 'absolute',
@@ -141,7 +141,7 @@ const styles = (theme: Theme) =>
       height: 24,
     },
     textChip: {
-      ...theme.dropdown.subText,
+      ...theme.dropdown?.subText,
     },
   });
 

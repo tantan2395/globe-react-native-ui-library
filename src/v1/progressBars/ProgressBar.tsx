@@ -1,14 +1,29 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useProgress } from '../provider/progressContext';
+import { useTheme } from '../provider';
 
 const ProgressBar: React.FC = () => {
   const { totalSteps, completedSteps } = useProgress();
+  const { theme } = useTheme();
   const progressPercentage = (completedSteps / totalSteps) * 100;
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.progressBar, { width: `${progressPercentage}%` }]} />
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme.progressBar?.backgroundColor },
+      ]}
+    >
+      <View
+        style={[
+          styles.progressBar,
+          {
+            width: `${progressPercentage}%`,
+            backgroundColor: theme.progressBar?.progressColor,
+          },
+        ]}
+      />
     </View>
   );
 };

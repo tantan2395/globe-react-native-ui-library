@@ -76,8 +76,8 @@ const styles = (props?: ButtonProps, theme?: Theme) =>
       marginVertical: 5,
       alignSelf: 'stretch',
       backgroundColor: props?.disabled
-        ? theme?.colors.disabledButtonColor
-        : theme?.colors.enabledButtonColor,
+        ? theme?.button.disabledButtonColor
+        : theme?.button.enabledButtonColor,
       ...props?.styles,
     },
   });
@@ -87,8 +87,8 @@ const textStyles = (props?: ButtonProps, theme?: Theme) =>
     text: {
       textAlign: 'center',
       color: props?.disabled
-        ? theme?.colors.textInactiveColor
-        : theme?.colors.textActiveColor,
+        ? theme?.button.textInactiveColor
+        : theme?.button.textActiveColor,
       fontWeight: '700',
       fontSize: 14,
       marginLeft: props?.useIcon ? 5 : 0,

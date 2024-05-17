@@ -42,8 +42,11 @@ const CircleButton: React.FC<CircleButtonProps> = (props) => {
   const mergedProps = { ...defaultProps, ...props };
 
   return (
-    <Pressable style={styles(mergedProps).button} onPress={props.onPress}>
-      <View style={styles(mergedProps).view}>
+    <Pressable
+      style={styles(mergedProps, theme).button}
+      onPress={props.onPress}
+    >
+      <View style={styles(mergedProps, theme).view}>
         {mergedProps.useIcon && mergedProps.useIcon}
 
         {mergedProps.label && (
@@ -58,7 +61,7 @@ const CircleButton: React.FC<CircleButtonProps> = (props) => {
 
 export default CircleButton;
 
-const styles = (props?: CircleButtonProps) =>
+const styles = (props?: CircleButtonProps, theme?: Theme) =>
   StyleSheet.create({
     view: {
       flexDirection: 'row',
@@ -70,7 +73,7 @@ const styles = (props?: CircleButtonProps) =>
       paddingHorizontal: 20,
       marginVertical: 5,
       alignSelf: 'stretch',
-      backgroundColor: 'transparent',
+      backgroundColor: theme?.circleButton.backgroundColor,
       width: 62,
       height: 62,
       gap: 10,
@@ -90,8 +93,8 @@ const textStyles = (props?: CircleButtonProps, theme?: Theme) =>
     text: {
       textAlign: 'center',
       color: props?.disabled
-        ? theme?.colors.textInactiveColor
-        : theme?.colors.textActiveColor,
+        ? theme?.circleButton.textInactiveColor
+        : theme?.circleButton.textActiveColor,
       fontWeight: '600',
       fontSize: 18,
       lineHeight: 18,

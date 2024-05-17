@@ -33,8 +33,8 @@ const styles = (props?: PressableTextProps, theme?: Theme) =>
       margin: 16,
       width: 'auto',
       color: props?.disabled
-        ? theme?.colors.disabledButtonColor
-        : theme?.colors.enabledButtonColor,
+        ? theme?.colors?.disabledButtonColor
+        : theme?.colors?.enabledButtonColor,
       ...props?.styles,
     },
   });
