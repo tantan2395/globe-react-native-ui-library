@@ -1,13 +1,19 @@
 import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import { Button, ThemeProvider } from 'globe-react-native-ui-library';
+import { ThemeProvider, Dropdown } from 'globe-react-native-ui-library';
 
 export default function App() {
+  const items = [
+    { label: 'Option 1', value: '1', subValue: '8 Ports Available' },
+    { label: 'Option 2', value: '2', subValue: '8 Ports Available' },
+    { label: 'Option 3', value: '3', subValue: 'Full' },
+  ];
+
   return (
     <ThemeProvider>
       <View style={styles.container}>
-        <Button label={'Sample Base Button'} />
+        <Dropdown items={items} placeholder="NAP Name" />
       </View>
     </ThemeProvider>
   );
@@ -16,12 +22,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+    alignItems: 'center',
   },
 });

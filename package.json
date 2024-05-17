@@ -155,8 +155,5 @@
         }
       ]
     ]
-  },
-  "dependencies": {
-    "react-native-autocomplete-dropdown": "^3.1.5"
   }
 }

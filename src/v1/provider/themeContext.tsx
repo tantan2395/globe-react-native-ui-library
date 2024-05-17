@@ -10,6 +10,13 @@ export interface Theme {
     enabledButtonColor: string;
     disabledButtonColor: string;
   };
+  dropdown: {
+    backgroundColor: string;
+    borderColor: string;
+    maxHeight: number;
+    itemText: TextStyle;
+    subText: TextStyle;
+  };
   styles?: ViewStyle | TextStyle;
 }
 
@@ -31,6 +38,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       textInactiveColor: '#BCC4CD',
       enabledButtonColor: '#62768B',
       disabledButtonColor: '#E9EBEE',
+    },
+    dropdown: {
+      backgroundColor: 'white',
+      borderColor: '#CFDDF4',
+      maxHeight: 300,
+      itemText: {
+        fontSize: 14,
+        fontWeight: '500',
+      },
+      subText: {
+        color: '#62768B',
+      },
     },
   });
 
