@@ -95,20 +95,16 @@ const Dropdown: React.FC<DropdownProps> = ({ items, placeholder }) => {
 const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {
+      flex: 1,
       height: '50%',
       width: '100%',
       alignItems: 'center',
     },
     dropdown: {
-      // position: 'absolute',
       width: '100%',
-      // bottom: '95%',
-      // zIndex: 2,
       backgroundColor: theme?.dropdown?.backgroundColor,
     },
     card: {
-      position: 'relative',
-      zIndex: 1,
       width: '100%',
       borderTopWidth: 0,
       borderTopColor: 'transparent',
@@ -139,7 +135,7 @@ const styles = (theme: Theme) =>
       top: '30%',
       width: 24,
       height: 24,
-      backgroundColor: 'transparent',
+      backgroundColor: 'orange',
       borderRadius: 100,
     },
     icon: {
