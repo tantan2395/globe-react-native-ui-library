@@ -73,7 +73,7 @@ const styles = (props?: CircleButtonProps, theme?: Theme) =>
       paddingHorizontal: 20,
       marginVertical: 5,
       alignSelf: 'stretch',
-      backgroundColor: theme?.circleButton.backgroundColor,
+      backgroundColor: theme?.circleButton?.backgroundColor,
       width: 62,
       height: 62,
       gap: 10,
@@ -93,8 +93,8 @@ const textStyles = (props?: CircleButtonProps, theme?: Theme) =>
     text: {
       textAlign: 'center',
       color: props?.disabled
-        ? theme?.circleButton.textInactiveColor
-        : theme?.circleButton.textActiveColor,
+        ? theme?.circleButton?.textInactiveColor
+        : theme?.circleButton?.textActiveColor,
       fontWeight: '600',
       fontSize: 18,
       lineHeight: 18,

@@ -26,7 +26,7 @@ const containerStyle = (props?: ContainerProps, theme?: Theme) =>
   StyleSheet.create({
     container: {
       padding: 15,
-      backgroundColor: theme?.colors.primary,
+      backgroundColor: theme?.colors?.primary,
       ...props?.styles,
     },
   });
