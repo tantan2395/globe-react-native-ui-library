@@ -14,6 +14,8 @@ import {
   type Theme,
 } from 'globe-react-native-ui-library';
 
+const icon = require('../assets/arrow-down-full.png');
+
 interface DropdownItem {
   label: string;
   value: string;
@@ -28,7 +30,6 @@ export interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({ items, placeholder }) => {
   const { theme } = useTheme();
 
-  const icon = require('../assets/arrow-down-full.png');
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,19 +53,23 @@ const Dropdown: React.FC<DropdownProps> = ({ items, placeholder }) => {
         <TextInput
           placeholder={placeholder}
           value={selectedItem ? selectedItem.label : searchTerm}
-          onChangeText={() => {
-            setSearchTerm;
+          onChangeText={(e) => {
+            setSearchTerm(e);
             toggleDropdown(true);
           }}
         />
-        <View style={styles(theme).iconContainer}>
+        <Pressable
+          style={styles(theme).iconContainer}
+          onPress={() => setIsVisible(!isVisible)}
+        >
           <Image source={icon} style={styles(theme).icon} resizeMode="center" />
-        </View>
+        </Pressable>
       </View>
 
       {isVisible && (
         <View style={styles(theme).card}>
           <FlatList
+            nestedScrollEnabled
             data={filteredItems}
             keyExtractor={(item) => item.value}
             renderItem={({ item }) => (
@@ -90,20 +95,21 @@ const Dropdown: React.FC<DropdownProps> = ({ items, placeholder }) => {
 const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {
+      height: '50%',
       width: '100%',
       alignItems: 'center',
     },
     dropdown: {
-      position: 'absolute',
-      width: '90%',
-      bottom: '95%',
-      zIndex: 2,
+      // position: 'absolute',
+      width: '100%',
+      // bottom: '95%',
+      // zIndex: 2,
       backgroundColor: theme?.dropdown?.backgroundColor,
     },
     card: {
       position: 'relative',
       zIndex: 1,
-      width: '90%',
+      width: '100%',
       borderTopWidth: 0,
       borderTopColor: 'transparent',
       borderBottomWidth: 1,
