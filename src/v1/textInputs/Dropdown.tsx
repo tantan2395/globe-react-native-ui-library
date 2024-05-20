@@ -135,7 +135,6 @@ const styles = (theme: Theme) =>
       top: '30%',
       width: 24,
       height: 24,
-      backgroundColor: 'orange',
       borderRadius: 100,
     },
     icon: {
