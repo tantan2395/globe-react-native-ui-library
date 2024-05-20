@@ -16,7 +16,7 @@ import {
 
 const icon = require('../assets/arrow-down-full.png');
 
-interface DropdownItem {
+export interface DropdownItem {
   label: string;
   value: string;
   subValue?: string;

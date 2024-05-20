@@ -8,4 +8,8 @@ export {
   type TextInputPinCodeProps,
 } from './TextInputPinCode';
 export { default as DateInput, type DateInputProps } from './DateInput';
-export { default as Dropdown, type DropdownProps } from './Dropdown';
+export {
+  default as Dropdown,
+  type DropdownProps,
+  type DropdownItem,
+} from './Dropdown';
