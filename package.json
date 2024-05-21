@@ -1,6 +1,6 @@
 {
   "name": "globe-react-native-ui-library",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "description": "Globe React Native UI Library",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
