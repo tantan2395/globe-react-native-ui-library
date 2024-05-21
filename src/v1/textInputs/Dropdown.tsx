@@ -25,9 +25,14 @@ export interface DropdownItem {
 export interface DropdownProps {
   items: DropdownItem[];
   placeholder: string;
+  onSelect?: (selectedItem: DropdownItem) => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ items, placeholder }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  items,
+  placeholder,
+  onSelect,
+}) => {
   const { theme } = useTheme();
 
   const [isVisible, setIsVisible] = useState(false);
@@ -41,6 +46,8 @@ const Dropdown: React.FC<DropdownProps> = ({ items, placeholder }) => {
   const selectItem = (item: DropdownItem) => {
     setSelectedItem(item);
     setIsVisible(false);
+
+    onSelect && onSelect(item);
   };
 
   const filteredItems = items.filter((item) =>
