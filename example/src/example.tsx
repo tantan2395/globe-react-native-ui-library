@@ -20,8 +20,8 @@ export default function Example() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: 'orange',
+    marginTop: 100,
+    marginHorizontal: 20,
   },
 });

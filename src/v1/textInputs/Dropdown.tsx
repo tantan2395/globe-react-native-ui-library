@@ -102,8 +102,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {
-      flex: 1,
-      height: '50%',
       width: '100%',
       alignItems: 'center',
     },
@@ -112,7 +110,11 @@ const styles = (theme: Theme) =>
       backgroundColor: theme?.dropdown?.backgroundColor,
     },
     card: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 60,
       width: '100%',
+      backgroundColor: 'white',
       borderTopWidth: 0,
       borderTopColor: 'transparent',
       borderBottomWidth: 1,
