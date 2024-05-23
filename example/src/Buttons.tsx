@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
   Button,
   CircleButton,
@@ -9,27 +9,33 @@ import {
 export const Buttons = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Button</Text>
-        <Button label={'Button'} />
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Button</Text>
+          <Button label={'Button'} />
+        </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Circle Button</Text>
-        <CircleButton label={'Circle button'} />
-      </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Circle Button</Text>
+          <CircleButton label={'Circle button'} />
+        </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Pressable Text</Text>
-        <PressableText label={'Pressable text'} />
-      </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Pressable Text</Text>
+          <PressableText label={'Pressable text'} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
+    flex: 1,
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
   },
   section: {
     marginVertical: 10,
