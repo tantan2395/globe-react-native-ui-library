@@ -111,7 +111,7 @@ const styles = (theme: Theme) =>
     },
     card: {
       position: 'absolute',
-      zIndex: 1,
+      zIndex: 10,
       top: 60,
       width: '100%',
       backgroundColor: 'white',
