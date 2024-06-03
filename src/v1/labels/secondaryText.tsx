@@ -2,15 +2,16 @@ import React from 'react';
 import { Text, StyleSheet, type TextStyle } from 'react-native';
 
 export interface SecondaryTextProps {
+  name?: string;
   value: string;
   styles?: TextStyle | TextStyle[] | undefined;
 }
 
 const SecondaryText: React.FC<SecondaryTextProps> = (props) => {
   return (
-    <>
-      <Text style={[styles.text, props.styles]}>{props.value}</Text>
-    </>
+    <Text style={[styles.text, props.styles]} testID={`text${props.name}`}>
+      {props.value}
+    </Text>
   );
 };
 
