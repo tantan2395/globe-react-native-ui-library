@@ -14,6 +14,7 @@ const ProgressBar: React.FC = () => {
         styles.container,
         { backgroundColor: theme.progressBar?.backgroundColor },
       ]}
+      testID="progress-bar"
     >
       <View
         style={[
@@ -23,6 +24,7 @@ const ProgressBar: React.FC = () => {
             backgroundColor: theme.progressBar?.progressColor,
           },
         ]}
+        testID="progress-bar-percentage"
       />
     </View>
   );

@@ -12,12 +12,13 @@ import { type Theme, useTheme } from '../provider/themeContext';
 
 export interface CircleButtonProps {
   label?: string | number;
-  styles?: ViewStyle;
+  style?: ViewStyle;
   textStyles?: TextStyle;
   onPress?: (event: GestureResponderEvent) => void;
   useIcon?: ReactElement;
   disabled?: boolean;
   labelCenter?: boolean;
+  name?: string;
 }
 
 const defaultProps: Partial<CircleButtonProps> = {
@@ -29,12 +30,13 @@ const defaultProps: Partial<CircleButtonProps> = {
  * Circle Button Component
  *
  * @param label  - The label text of the button (optional).
- * @param styles - Additional styling for the button; It will override the theme (optional).
+ * @param style - Additional styling for the button; It will override the theme (optional).
  * @param textStyles - Additional styling for the button label; It will override the theme (optional).
  * @param onPress - Called when a single tap gesture is detected (optional).
  * @param useIcon - Represents a JSX element. Usually an image (optional).
  * @param disabled - Represents whether the button is disabled or enabled (optional). Default to false.
  * @param labelCenter - Makes the label appear in the center (optional). Default to false.
+ * @param name - Used to locate this view in end-to-end tests
  * @returns
  */
 const CircleButton: React.FC<CircleButtonProps> = (props) => {
@@ -45,12 +47,16 @@ const CircleButton: React.FC<CircleButtonProps> = (props) => {
     <Pressable
       style={styles(mergedProps, theme).button}
       onPress={props.onPress}
+      testID={props.name}
     >
       <View style={styles(mergedProps, theme).view}>
         {mergedProps.useIcon && mergedProps.useIcon}
 
         {mergedProps.label && (
-          <Text style={textStyles(mergedProps, theme).text}>
+          <Text
+            style={textStyles(mergedProps, theme).text}
+            testID={`${props.name}-label`}
+          >
             {mergedProps.label}
           </Text>
         )}
@@ -84,7 +90,7 @@ const styles = (props?: CircleButtonProps, theme?: Theme) =>
       borderColor: '#CFDDF4',
       margin: 10,
       fontWeight: '500',
-      ...props?.styles,
+      ...props?.style,
     },
   });
 

@@ -10,19 +10,23 @@ import {
 } from 'react-native';
 
 export interface DateInputProps {
-  styles?: ViewStyle | TextStyle;
+  style?: ViewStyle | TextStyle;
   placeholder?: string;
   onConfirm: (date: string) => void;
   handleOnEnablePicker: (d: boolean) => void;
   value: string;
+  name?: string;
 }
 
 /**
- * DateInput Component with placeholder on top-left corner upon focused
+ * DateInput Component with placeholder on top-left corner upon focused Props
  *
- * @param styles - Additional styling for the outer design of the Text Input (optional).
- * @param placeholder - The label text of the Text Input (optional).
- * @param onConfirm - Confirm callback returns picked date (required)
+ * @param style - Additional styles for the date input container (optional).
+ * @param placeholder - Placeholder text for the date input (optional).
+ * @param onConfirm - Callback function invoked when a date is confirmed; it receives the selected date as a string (required).
+ * @param handleOnEnablePicker - Callback function invoked to enable or disable the date picker; it receives a boolean value (required).
+ * @param value - The current value of the date input (required).
+ * @param name - Used to locate this view in end-to-end tests (optional).
  * @returns
  */
 const DateInput: React.FC<DateInputProps> = (props) => {
@@ -46,13 +50,17 @@ const DateInput: React.FC<DateInputProps> = (props) => {
 
   return (
     <>
-      <Pressable onPress={handleOnEnablePicker}>
-        <View style={styles(props).container}>
+      <Pressable onPress={handleOnEnablePicker} testID={props.name}>
+        <View
+          style={styles(props).container}
+          testID={`${props.name}-container`}
+        >
           <View
             style={[
               styles(props).inputContainer,
               isFocused && styles(props).inputContainerFocused,
             ]}
+            testID={`${props.name}-container-input`}
           >
             <Animated.View
               style={[
@@ -75,9 +83,16 @@ const DateInput: React.FC<DateInputProps> = (props) => {
                 },
               ]}
             >
-              <Text style={styles(props).placeholder}>{props.placeholder}</Text>
+              <Text
+                style={styles(props).placeholder}
+                testID={`${props.name}-placeholder`}
+              >
+                {props.placeholder}
+              </Text>
             </Animated.View>
-            <Text style={styles(props).input}>{props.value}</Text>
+            <Text style={styles(props).input} testID={`${props.name}-value`}>
+              {props.value}
+            </Text>
           </View>
         </View>
       </Pressable>
@@ -90,7 +105,7 @@ export default DateInput;
 const styles = (props: DateInputProps) =>
   StyleSheet.create({
     container: {
-      ...props.styles,
+      ...props.style,
     },
     inputContainer: {
       position: 'relative',

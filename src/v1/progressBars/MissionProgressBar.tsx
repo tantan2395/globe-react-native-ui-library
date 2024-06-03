@@ -14,14 +14,27 @@ export interface MissionProgressBarProps {
   containerStyle?: ViewStyle;
   progressBarStyle?: ViewStyle;
   textStyle?: TextStyle;
+  name?: string;
 }
 
+/**
+ * MissionProgressBar Component Props
+ *
+ * @param totalSteps - The total number of steps in the mission (required).
+ * @param completedSteps - The number of steps completed in the mission (required).
+ * @param containerStyle - Additional styles for the container of the progress bar (optional).
+ * @param progressBarStyle - Additional styles for the progress bar (optional).
+ * @param textStyle - Additional styles for the text displaying the progress (optional).
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
 const MissionProgressBar: React.FC<MissionProgressBarProps> = ({
   containerStyle,
   progressBarStyle,
   textStyle,
   totalSteps = 3,
   completedSteps = 0,
+  name,
 }) => {
   const progressPercentage = (completedSteps / totalSteps) * 100;
   const starSource = require('../assets/star.png');
@@ -33,24 +46,32 @@ const MissionProgressBar: React.FC<MissionProgressBarProps> = ({
 
   return (
     <>
-      <View style={[styles.container, containerStyle]}>
+      <View style={[styles.container, containerStyle]} testID={name}>
         <View
           style={[
             styles.progressBar,
             progressBarStyle,
             { width: `${progressPercentage}%` },
           ]}
+          testID={`${name}-progress-bar`}
         />
-        <Text style={[styles.progressText, textStyle]}>
+        <Text
+          style={[styles.progressText, textStyle]}
+          testID={`${name}-progress-bar-steps`}
+        >
           {completedSteps}/{totalSteps}
         </Text>
       </View>
-      <View style={[styles.circle, { backgroundColor: circleColor }]}>
-        <View style={styles.starContainer}>
+      <View
+        style={[styles.circle, { backgroundColor: circleColor }]}
+        testID={`${name}-container-circle`}
+      >
+        <View style={styles.starContainer} testID={`${name}-container-star`}>
           <Image
             source={starSource}
             style={[styles.image]}
             resizeMode="cover"
+            testID={`${name}-image`}
           />
         </View>
       </View>

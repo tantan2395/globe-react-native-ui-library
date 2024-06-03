@@ -11,23 +11,25 @@ import {
 } from 'react-native';
 
 export interface TextInputProps {
-  styles?: ViewStyle | TextStyle;
+  style?: ViewStyle | TextStyle;
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   value?: string;
   onChangeText?: (e: string) => void;
   showSoftInputOnFocus?: boolean;
+  name?: string;
 }
 
 /**
  * TextInput Component with placeholder on top-left corner upon focused
  *
- * @param styles - Additional styling for the outer design of the Text Input (optional).
- * @param placeholder - The label text of the Text Input (optional).
- * @param keyboardType - check react-native's keyboardTypes under TextInput (optional)
- * @param value - Input text value
- * @param onChangeText - Get the text changes
- * @param showSoftInputOnFocus - Display the soft keyboard
+ * @param style - Additional styles for the text input container (optional).
+ * @param placeholder - Placeholder text displayed when the input is empty (optional).
+ * @param keyboardType - Specifies the keyboard type to use for the input (optional).
+ * @param value - The current value of the input (optional).
+ * @param onChangeText - Callback function invoked when the input value changes; it receives the new value as a string (optional).
+ * @param showSoftInputOnFocus - Determines whether the soft keyboard should be displayed when the input is focused (optional).
+ * @param name - Used to locate this view in end-to-end tests (optional).
  * @returns
  */
 const TextInput: React.FC<TextInputProps> = (props) => {
@@ -76,12 +78,13 @@ const TextInput: React.FC<TextInputProps> = (props) => {
   };
 
   return (
-    <View style={styles(props).container}>
+    <View style={styles(props).container} testID={props.name}>
       <View
         style={[
           styles(props).inputContainer,
           isFocused && styles(props).inputContainerFocused,
         ]}
+        testID={`${props.name}-container-input`}
       >
         <Animated.View
           style={[
@@ -104,7 +107,12 @@ const TextInput: React.FC<TextInputProps> = (props) => {
             },
           ]}
         >
-          <Text style={styles(props).placeholder}>{props.placeholder}</Text>
+          <Text
+            style={styles(props).placeholder}
+            testID={`${props.name}-placeholder`}
+          >
+            {props.placeholder}
+          </Text>
         </Animated.View>
         <RNTextInput
           style={styles(props).input}
@@ -115,6 +123,7 @@ const TextInput: React.FC<TextInputProps> = (props) => {
           keyboardType={props.keyboardType}
           ref={textInputRef}
           showSoftInputOnFocus={props.showSoftInputOnFocus}
+          testID={`${props.name}-text-input`}
         />
       </View>
     </View>
@@ -126,7 +135,7 @@ export default TextInput;
 const styles = (props: TextInputProps) =>
   StyleSheet.create({
     container: {
-      ...props.styles,
+      ...props.style,
     },
     inputContainer: {
       position: 'relative',

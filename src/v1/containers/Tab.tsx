@@ -16,8 +16,21 @@ export interface TabProps {
   style?: ViewStyle;
   children: ReactNode[];
   contentStyle?: ViewStyle;
+  name?: string;
 }
 
+/**
+ * Tab Component Props
+ *
+ * @param tabs - An array of strings representing the labels for each tab (required).
+ * @param tabStyle - Additional styles for the tab container (optional).
+ * @param tabTextStyle - Additional styles for the text of each tab (optional).
+ * @param style - Additional styles for the overall component container (optional).
+ * @param children - An array of React nodes representing the content of each tab (required).
+ * @param contentStyle - Additional styles for the content container of each tab (optional).
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
 const Tab: React.FC<TabProps> = ({
   tabs,
   tabStyle,
@@ -25,6 +38,7 @@ const Tab: React.FC<TabProps> = ({
   style,
   children,
   contentStyle,
+  name,
 }) => {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -33,17 +47,19 @@ const Tab: React.FC<TabProps> = ({
   };
 
   return (
-    <View style={style}>
+    <View style={style} testID={name}>
       <ScrollView
         style={styles.container}
         horizontal
         showsHorizontalScrollIndicator={false}
+        testID={`${name}-scrollview`}
       >
         {tabs.map((e, i) => (
           <Pressable
             key={i}
             style={[styles.tab, tabStyle]}
             onPress={() => handleSelectedTab(i)}
+            testID={`${name}-scrollview-item-${i}`}
           >
             <Text
               style={[
@@ -51,6 +67,7 @@ const Tab: React.FC<TabProps> = ({
                 tabTextStyle,
                 activeTab === i && styles.selectedTab,
               ]}
+              testID={`${name}-scrollview-item-text-${i}`}
             >
               {e}
             </Text>
@@ -58,9 +75,15 @@ const Tab: React.FC<TabProps> = ({
         ))}
       </ScrollView>
 
-      <View style={contentStyle}>
+      <View style={contentStyle} testID={`${name}-container-content`}>
         {children.map((child, index) =>
-          activeTab === index ? <View key={index}>{child}</View> : <></>
+          activeTab === index ? (
+            <View key={index} testID={`${name}-content-child`}>
+              {child}
+            </View>
+          ) : (
+            <></>
+          )
         )}
       </View>
     </View>

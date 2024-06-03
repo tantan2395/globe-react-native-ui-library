@@ -6,13 +6,25 @@ export interface TextInputPinCodeProps {
   onPinChanged?: (pin: string) => void;
   value?: string;
   showSoftInputOnFocus?: boolean;
+  name?: string;
 }
 
+/**
+ * TextInputPinCode Component Props
+ *
+ * @param numberOfPins - The number of input fields (pins) in the pin code input (optional).
+ * @param onPinChanged - Callback function invoked when the pin code value changes; it receives the new pin code as a string (optional).
+ * @param value - The current value of the pin code input (optional).
+ * @param showSoftInputOnFocus - Determines whether the soft keyboard should be displayed when the pin code input is focused (optional).
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
 const TextInputPinCode: React.FC<TextInputPinCodeProps> = ({
   numberOfPins = 6,
   onPinChanged,
   showSoftInputOnFocus,
   value,
+  name,
 }) => {
   const [pin, setPin] = useState<string[]>(Array(numberOfPins).fill(''));
   const pinInputs = useRef<TextInput[]>(Array(numberOfPins).fill(null));
@@ -62,12 +74,13 @@ const TextInputPinCode: React.FC<TextInputPinCodeProps> = ({
   }, [value, numberOfPins]);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={name}>
       {pin.map((val, index) => (
         <TouchableOpacity
           key={index}
           onPress={() => pinInputs.current[index]?.focus()}
           style={[styles.pinCircle, val !== '' && styles.filledCircle]}
+          testID={`${name}-pin-inputs-${index}`}
         >
           <TextInput
             ref={(ref) => (pinInputs.current[index] = ref as TextInput)}
@@ -81,6 +94,7 @@ const TextInputPinCode: React.FC<TextInputPinCodeProps> = ({
             }
             showSoftInputOnFocus={showSoftInputOnFocus}
             caretHidden={true}
+            testID={`${name}-text-inputs-${index}`}
           />
         </TouchableOpacity>
       ))}

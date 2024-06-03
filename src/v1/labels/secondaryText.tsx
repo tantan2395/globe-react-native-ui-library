@@ -4,13 +4,25 @@ import { Text, StyleSheet, type TextStyle } from 'react-native';
 export interface SecondaryTextProps {
   name?: string;
   value: string;
-  styles?: TextStyle | TextStyle[] | undefined;
+  style?: TextStyle | TextStyle[] | undefined;
 }
 
-const SecondaryText: React.FC<SecondaryTextProps> = (props) => {
+/**
+ * Secondary Text Component
+ *
+ * @param value  - The label text of the button (optional).
+ * @param style - Additional styling for the Text.
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
+const SecondaryText: React.FC<SecondaryTextProps> = ({
+  name,
+  value,
+  style,
+}) => {
   return (
-    <Text style={[styles.text, props.styles]} testID={`text${props.name}`}>
-      {props.value}
+    <Text style={[styles.text, style]} testID={name}>
+      {value}
     </Text>
   );
 };

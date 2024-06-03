@@ -6,13 +6,25 @@ export interface TextInputPinProps {
   onPinChange?: (pin: string) => void;
   value?: string;
   showSoftInputOnFocus?: boolean;
+  name?: string;
 }
 
+/**
+ * TextInputPin Component Props
+ *
+ * @param numberOfPins - The number of input fields (pins) in the pin input (optional).
+ * @param onPinChange - Callback function invoked when the pin value changes; it receives the new pin as a string (optional).
+ * @param value - The current value of the pin input (optional).
+ * @param showSoftInputOnFocus - Determines whether the soft keyboard should be displayed when the pin input is focused (optional).
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
 const TextInputPin: React.FC<TextInputPinProps> = ({
   numberOfPins = 6,
   onPinChange,
   value,
   showSoftInputOnFocus,
+  name,
 }) => {
   const windowWidth = useWindowDimensions().width;
   const [pin, setPin] = useState<string>('');
@@ -69,9 +81,13 @@ const TextInputPin: React.FC<TextInputPinProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={name}>
       {Array.from({ length: numberOfPins }, (_, index) => (
-        <View key={index} style={styles.pinContainer}>
+        <View
+          key={index}
+          style={styles.pinContainer}
+          testID={`${name}-container-${index}`}
+        >
           <TextInput
             ref={(ref) => (inputRefs[index] = ref)}
             style={[styles.pinInput, { width: pinInputWidth }]}
@@ -94,6 +110,7 @@ const TextInputPin: React.FC<TextInputPinProps> = ({
             maxLength={1}
             showSoftInputOnFocus={showSoftInputOnFocus}
             caretHidden={true}
+            testID={`${name}-text-input-${index}`}
           />
         </View>
       ))}

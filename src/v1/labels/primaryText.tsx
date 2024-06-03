@@ -2,15 +2,24 @@ import React from 'react';
 import { Text, StyleSheet, type TextStyle } from 'react-native';
 
 export interface PrimaryTextProps {
+  name?: string;
   value: string;
-  styles?: TextStyle | TextStyle[] | undefined;
+  style?: TextStyle | TextStyle[] | undefined;
 }
 
-const PrimaryText: React.FC<PrimaryTextProps> = (props) => {
+/**
+ * Primary Text Component
+ *
+ * @param value  - The label text of the button (optional).
+ * @param style - Additional styling for the Text.
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
+const PrimaryText: React.FC<PrimaryTextProps> = ({ name, value, style }) => {
   return (
-    <>
-      <Text style={[styles.text, props.styles]}>{props.value}</Text>
-    </>
+    <Text style={[styles.text, style]} testID={name}>
+      {value}
+    </Text>
   );
 };
 

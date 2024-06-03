@@ -26,12 +26,23 @@ export interface DropdownProps {
   items: DropdownItem[];
   placeholder: string;
   onSelect?: (selectedItem: DropdownItem) => void;
+  name?: string;
 }
 
+/**
+ * Dropdown Component Props
+ *
+ * @param items - An array of DropdownItem objects representing the options in the dropdown (required).
+ * @param placeholder - Placeholder text displayed when no option is selected (required).
+ * @param onSelect - Callback function invoked when an item is selected; it receives the selected DropdownItem object (optional).
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
 const Dropdown: React.FC<DropdownProps> = ({
   items,
   placeholder,
   onSelect,
+  name,
 }) => {
   const { theme } = useTheme();
 
@@ -55,8 +66,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 
   return (
-    <View style={styles(theme).container}>
-      <View style={styles(theme).dropdown}>
+    <View style={styles(theme).container} testID={name}>
+      <View style={styles(theme).dropdown} testID={`${name}-dropdown`}>
         <TextInput
           placeholder={placeholder}
           value={selectedItem ? selectedItem.label : searchTerm}
@@ -64,17 +75,24 @@ const Dropdown: React.FC<DropdownProps> = ({
             setSearchTerm(e);
             toggleDropdown(true);
           }}
+          name={`${name}-text-input`}
         />
         <Pressable
           style={styles(theme).iconContainer}
           onPress={() => setIsVisible(!isVisible)}
+          testID={`${name}-pressable-container`}
         >
-          <Image source={icon} style={styles(theme).icon} resizeMode="center" />
+          <Image
+            source={icon}
+            style={styles(theme).icon}
+            resizeMode="center"
+            testID={`${name}-image`}
+          />
         </Pressable>
       </View>
 
       {isVisible && (
-        <View style={styles(theme).card}>
+        <View style={styles(theme).card} testID={`${name}-card`}>
           <FlatList
             nestedScrollEnabled
             data={filteredItems}
@@ -83,15 +101,27 @@ const Dropdown: React.FC<DropdownProps> = ({
               <Pressable
                 style={styles(theme).dropdownItem}
                 onPress={() => selectItem(item)}
+                testID={`${name}-dropdown-item`}
               >
-                <Text style={styles(theme).itemText}>{item.label}</Text>
+                <Text
+                  style={styles(theme).itemText}
+                  testID={`${name}-dropdown-item-value`}
+                >
+                  {item.label}
+                </Text>
                 {item.subValue && (
                   <Chip>
-                    <Text style={styles(theme).textChip}>{item.subValue}</Text>
+                    <Text
+                      style={styles(theme).textChip}
+                      testID={`${name}-dropdown-item-subvalue`}
+                    >
+                      {item.subValue}
+                    </Text>
                   </Chip>
                 )}
               </Pressable>
             )}
+            testID={`${name}-flatlist`}
           />
         </View>
       )}

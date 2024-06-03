@@ -25,8 +25,27 @@ export interface CarouselProps {
   nextButtonText?: string;
   doneButtonText?: string;
   onDone: () => void;
+  name?: string;
 }
 
+/**
+ * Carousel Component
+ *
+ * @param items - An array of items to be displayed in the carousel. Each item can be a React component or an element (required).
+ * @param style - Additional styling for the carousel container; It will override the default styles (optional).
+ * @param itemStyle - Additional styling for each item in the carousel; It will override the default styles (optional).
+ * @param paginationStyle - Additional styling for the pagination container; It will override the default styles (optional).
+ * @param paginationDotStyle - Additional styling for the pagination dots; It will override the default styles (optional).
+ * @param buttonContainerStyle - Additional styling for the button container; It will override the default styles (optional).
+ * @param buttonStyle - Additional styling for the buttons (skip, next, done); It will override the default styles (optional).
+ * @param buttonTextStyle - Additional styling for the button text; It will override the default styles (optional).
+ * @param skipButtonText - Text to be displayed on the skip button (optional). Default to "Skip".
+ * @param nextButtonText - Text to be displayed on the next button (optional). Default to "Next".
+ * @param doneButtonText - Text to be displayed on the done button (optional). Default to "Done".
+ * @param onDone - Callback function to be called when the done button is pressed (optional).
+ * @param name - Used to locate this view in end-to-end tests (optional).
+ * @returns
+ */
 const Carousel: React.FC<CarouselProps> = ({
   items,
   style,
@@ -40,6 +59,7 @@ const Carousel: React.FC<CarouselProps> = ({
   nextButtonText = 'Next',
   doneButtonText = 'Done',
   onDone,
+  name,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
@@ -78,7 +98,11 @@ const Carousel: React.FC<CarouselProps> = ({
 
   const renderItems = () => {
     return items.map((item, index) => (
-      <View key={index} style={itemContainerStyles(itemStyle).itemContainer}>
+      <View
+        key={index}
+        style={itemContainerStyles(itemStyle).itemContainer}
+        testID={`${name}-scrollview-items-${index}`}
+      >
         {item}
       </View>
     ));
@@ -89,8 +113,11 @@ const Carousel: React.FC<CarouselProps> = ({
   const handleDisableSkipButton = () => activeIndex === items.length - 1;
 
   return (
-    <View>
-      <View style={containerStyles(style).container}>
+    <View testID={name}>
+      <View
+        style={containerStyles(style).container}
+        testID={`${name}-container`}
+      >
         <ScrollView
           ref={scrollRef}
           horizontal
@@ -98,10 +125,14 @@ const Carousel: React.FC<CarouselProps> = ({
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={handleScrollEnd}
           scrollEventThrottle={16}
+          testID={`${name}-container-scrollview`}
         >
           {renderItems()}
         </ScrollView>
-        <View style={paginationStyles(paginationStyle).pagination}>
+        <View
+          style={paginationStyles(paginationStyle).pagination}
+          testID={`${name}-container-pagination`}
+        >
           {items.map((_, index) => (
             <Animated.View
               key={index}
@@ -111,6 +142,7 @@ const Carousel: React.FC<CarouselProps> = ({
                   activeIndex === index ? 1 : 0.5
                 ).paginationDot
               }
+              testID={`${name}-container-pagination-dot-${index}`}
             />
           ))}
         </View>
@@ -118,19 +150,22 @@ const Carousel: React.FC<CarouselProps> = ({
 
       <View
         style={buttonContainerStyles(buttonContainerStyle).buttonsContainer}
+        testID={`${name}-button-container`}
       >
         <Button
           label={handleNextButtonText()}
-          styles={buttonStyles(buttonStyle, buttonTextStyle).button}
+          style={buttonStyles(buttonStyle, buttonTextStyle).button}
           textStyles={buttonStyles(buttonStyle, buttonTextStyle).button}
           onPress={handleNext}
+          name={`${name}-next-button`}
         />
         <Button
           label={skipButtonText}
-          styles={buttonStyles(buttonStyle, buttonTextStyle).button}
+          style={buttonStyles(buttonStyle, buttonTextStyle).button}
           textStyles={buttonStyles(buttonStyle, buttonTextStyle).button}
           onPress={handleSkip}
           disabled={handleDisableSkipButton()}
+          name={`${name}-skip-button`}
         />
       </View>
     </View>
