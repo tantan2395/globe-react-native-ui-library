@@ -113,7 +113,7 @@ const TextInput: React.FC<TextInputProps> = (props) => {
             style={styles(props).placeholder}
             testID={`${props.name}-placeholder`}
           >
-            {props.placeholder} 
+            {props.placeholder}
             {props.required && <Text style={styles(props).required}> *</Text>}
           </Text>
         </Animated.View>
@@ -175,5 +175,5 @@ const styles = (props: TextInputProps) =>
     },
     required: {
       color: 'red',
-    }
+    },
   });
