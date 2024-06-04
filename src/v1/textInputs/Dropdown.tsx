@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   Image,
+  type ViewStyle,
 } from 'react-native';
 import {
   Chip,
@@ -28,6 +29,8 @@ export interface DropdownProps {
   onSelect?: (selectedItem: DropdownItem) => void;
   name?: string;
   required?: boolean;
+  dropdownItemStyle?: ViewStyle;
+  dropdownStyle?: ViewStyle;
 }
 
 /**
@@ -38,6 +41,8 @@ export interface DropdownProps {
  * @param onSelect - Callback function invoked when an item is selected; it receives the selected DropdownItem object (optional).
  * @param name - Used to locate this view in end-to-end tests (optional).
  * @param required - Default to false. Shows a red asterisk on the right side of the placeholder (optional).
+ * @param dropdownItemStyle - Additional ViewStyle for the Dropdown Item Card (optional).
+ *  @param dropdownStyle - Additional ViewStyle for the Dropdown (optional).
  * @returns
  */
 const Dropdown: React.FC<DropdownProps> = ({
@@ -46,6 +51,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   onSelect,
   name,
   required = false,
+  dropdownItemStyle,
+  dropdownStyle,
 }) => {
   const { theme } = useTheme();
 
@@ -69,7 +76,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 
   return (
-    <View style={styles(theme).container} testID={name}>
+    <View style={[styles(theme).container, dropdownStyle]} testID={name}>
       <View style={styles(theme).dropdown} testID={`${name}-dropdown`}>
         <TextInput
           required={required}
@@ -96,9 +103,11 @@ const Dropdown: React.FC<DropdownProps> = ({
       </View>
 
       {isVisible && (
-        <View style={styles(theme).card} testID={`${name}-card`}>
+        <View
+          style={[styles(theme).card, dropdownItemStyle]}
+          testID={`${name}-card`}
+        >
           <FlatList
-            nestedScrollEnabled
             data={filteredItems}
             keyExtractor={(item) => item.value}
             renderItem={({ item }) => (
@@ -125,7 +134,6 @@ const Dropdown: React.FC<DropdownProps> = ({
                 )}
               </Pressable>
             )}
-            testID={`${name}-flatlist`}
           />
         </View>
       )}
@@ -147,6 +155,8 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       zIndex: 10,
       top: 60,
+      left: 0,
+      right: 0,
       width: '100%',
       backgroundColor: 'white',
       borderTopWidth: 0,
