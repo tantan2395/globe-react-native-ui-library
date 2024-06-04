@@ -27,6 +27,7 @@ export interface DropdownProps {
   placeholder: string;
   onSelect?: (selectedItem: DropdownItem) => void;
   name?: string;
+  required?: boolean;
 }
 
 /**
@@ -36,6 +37,7 @@ export interface DropdownProps {
  * @param placeholder - Placeholder text displayed when no option is selected (required).
  * @param onSelect - Callback function invoked when an item is selected; it receives the selected DropdownItem object (optional).
  * @param name - Used to locate this view in end-to-end tests (optional).
+ * @param required - Default to false. Shows a red asterisk on the right side of the placeholder (optional).
  * @returns
  */
 const Dropdown: React.FC<DropdownProps> = ({
@@ -43,6 +45,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   placeholder,
   onSelect,
   name,
+  required = false,
 }) => {
   const { theme } = useTheme();
 
@@ -69,6 +72,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     <View style={styles(theme).container} testID={name}>
       <View style={styles(theme).dropdown} testID={`${name}-dropdown`}>
         <TextInput
+          required={required}
           placeholder={placeholder}
           value={selectedItem ? selectedItem.label : searchTerm}
           onChangeText={(e) => {

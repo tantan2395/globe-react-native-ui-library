@@ -18,6 +18,7 @@ export interface TextInputProps {
   onChangeText?: (e: string) => void;
   showSoftInputOnFocus?: boolean;
   name?: string;
+  required?: boolean;
 }
 
 /**
@@ -30,6 +31,7 @@ export interface TextInputProps {
  * @param onChangeText - Callback function invoked when the input value changes; it receives the new value as a string (optional).
  * @param showSoftInputOnFocus - Determines whether the soft keyboard should be displayed when the input is focused (optional).
  * @param name - Used to locate this view in end-to-end tests (optional).
+ * @param required - Default to false. Shows a red asterisk on the right side of the placeholder (optional).
  * @returns
  */
 const TextInput: React.FC<TextInputProps> = (props) => {
@@ -111,7 +113,8 @@ const TextInput: React.FC<TextInputProps> = (props) => {
             style={styles(props).placeholder}
             testID={`${props.name}-placeholder`}
           >
-            {props.placeholder}
+            {props.placeholder} 
+            {props.required && <Text style={styles(props).required}> *</Text>}
           </Text>
         </Animated.View>
         <RNTextInput
@@ -170,4 +173,7 @@ const styles = (props: TextInputProps) =>
       color: 'gray',
       paddingHorizontal: 12,
     },
+    required: {
+      color: 'red',
+    }
   });
