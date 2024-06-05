@@ -14,15 +14,20 @@ interface InformationIconProps {
   iconSrc: any;
   infoContent: string;
   style?: ViewStyle;
+  testId?: string;
+  testIdContent?: string;
 }
 
-const InformationIconText: React.FC<InformationIconProps> = (
-  props: InformationIconProps
-) => {
+const InformationIconText: React.FC<InformationIconProps> = ({
+  iconSrc,
+  infoContent,
+  style,
+  testId = 'information-container',
+}) => {
   return (
-    <View style={[styles.main, props.style]}>
-      <Image style={styles.image} source={props.iconSrc} />
-      <SecondaryText style={styles.text} value={props.infoContent} />
+    <View style={[styles.main, style]} testID={testId}>
+      <Image style={styles.image} source={iconSrc} />
+      <SecondaryText style={styles.text} value={infoContent} />
     </View>
   );
 };
@@ -31,12 +36,10 @@ const styles = StyleSheet.create({
   main: {
     flexDirection: 'row',
     marginHorizontal: 24,
-    backgroundColor: 'red',
   },
   image: {
     width: 32,
     height: 32,
-    backgroundColor: 'gray',
   },
   text: {
     paddingStart: 8,
