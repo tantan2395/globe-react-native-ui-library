@@ -41,6 +41,7 @@ export interface RadioButtonProps {
  * @returns React component
  */
 const RadioButton: React.FC<RadioButtonProps> = ({
+  radionButtonContainerStyle,
   radioButtonStyle,
   radioButtonIcon,
   radioButtonInactive,
@@ -55,7 +56,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   };
 
   return (
-    <View style={styles.main} testID={`${name}`}>
+    <View style={[styles.main, radionButtonContainerStyle]} testID={`${name}`}>
       {items.map((v, i) => (
         <Pressable
           style={[styles.radioButton, radioButtonStyle]}
