@@ -15,6 +15,7 @@ export type RadioButtonType = {
 };
 
 export interface RadioButtonProps {
+  radionButtonContainerStyle?: ViewStyle;
   radioButtonStyle?: ViewStyle;
   radioButtonIcon?: ViewStyle;
   radioButtonInactive?: ViewStyle;
@@ -28,7 +29,8 @@ export interface RadioButtonProps {
 /**
  * RadioButtonGroup Component
  *
- * @param radioButtonStyle - Additional styling for the radio button container (optional).
+ * @param radionButtonContainerStyle - Additional styling for the radio button container (optional).
+ * @param radioButtonStyle - Additional styling for the pressable radio button (optional).
  * @param radioButtonIcon - Styling for the radio button icon (optional).
  * @param radioButtonInactive - Styling for the inactive state of the radio button icon (optional).
  * @param radioButtonWhiteCircleStyle - Styling for the white circle inside the radio button icon (optional).
