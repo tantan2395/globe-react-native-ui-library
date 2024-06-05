@@ -20,7 +20,7 @@ import { SecondaryText } from 'globe-react-native-ui-library';
  * @param highlightedTextStyle = Additional Styling to the hightlighted text (optional).
  * @returns
  */
-interface InformationIconProps {
+export interface InformationIconProps {
   iconSrc: any;
   infoContent: string;
   infoSubContent?: string;
