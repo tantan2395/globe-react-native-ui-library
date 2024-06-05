@@ -15,7 +15,6 @@ interface InformationIconProps {
   infoContent: string;
   style?: ViewStyle;
   testId?: string;
-  testIdContent?: string;
 }
 
 const InformationIconText: React.FC<InformationIconProps> = ({
